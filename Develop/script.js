@@ -3,49 +3,57 @@ const addEmployeesBtn = document.querySelector('#add-employees-btn');
 
 // Collect employee data
 const collectEmployees = function() {
-  // TODO: Get user input to create and return an array of employee objects
-  const employees = []
-  const first = prompt ("employee first name");
-  const last = prompt ("employee last name");
-  let salary = prompt("employee salary");
+   // TODO: Get user input to create and return an array of employee objects
+  const employees = [];
+  let addMore = true;
 
-  if (isNaN(salary)) {
-    salary = 0;
-  }
+  while (addMore) {
+    const first = prompt("Employee first name:");
+    const last = prompt("Employee last name:");
+    let salary = prompt("Employee salary:");
 
-  const employee = {
-    firstName: first,
-    lastName: last, 
-    salary: salary
-  }
-  employees.push(employee);
-  return employees
-}
-
-// Display the average salary
-const displayAverageSalary = function(employeesArray) {
-  // TODO: Calculate and display the average salary
-  let totalSalary = 0;
-  const totalEmployees = employeesArray.length
-  for (const employee of employeesArray) {
-    
-   totalSalary += employee.salary;
-  }
-  const average = totalSalary / totalEmployees;
-  console.log(average);
-}
-
-// Select a random employee
-const getRandomEmployee = function(employeesArray) {
-  // TODO: Select and display a random employee
-    if (employeesArray.length === 0) {
-      console.log();
-      return;
+    if (isNaN(salary) || salary === "") {
+      salary = 0;
     }
-  
-    // Generate a random index
-    const randomIndex = Math.floor(Math.random() * employeesArray.length);
-}
+
+    const employee = {
+      firstName: first,
+      lastName: last,
+      salary: parseFloat(salary)
+    };
+
+    employees.push(employee);
+
+    addMore = confirm("Do you want to add another employee?");
+  }
+
+  return employees;
+};
+
+
+// Function to get a random employee
+const getRandomEmployee = function(employeesArray) {
+  if (employeesArray.length === 0) {
+    console.log('No employees available.');
+    return;
+  }
+
+  const randomIndex = Math.floor(Math.random() * employeesArray.length);
+  const selectedEmployee = employeesArray[randomIndex];
+  console.log('Selected Employee:', selectedEmployee);
+};
+
+// Function to display average salary
+const displayAverageSalary = function(employeesArray) {
+  if (employeesArray.length === 0) {
+    console.log('No employees to calculate average salary.');
+    return;
+  }
+
+  const totalSalary = employeesArray.reduce((total, employee) => total + employee.salary, 0);
+  const averageSalary = totalSalary / employeesArray.length;
+  console.log('Average Salary:', averageSalary.toLocaleString("en-US", { style: "currency", currency: "USD" }));
+};
 
 /*
   ====================
